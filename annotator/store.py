@@ -12,6 +12,7 @@ store = Blueprint('store', __name__)
 
 CREATE_FILTER_FIELDS = ('updated', 'created', 'consumer')
 UPDATE_FILTER_FIELDS = ('updated', 'created', 'user', 'consumer')
+ABSOLUTE_FILTER_FIELDS = ('consumer')
 
 # We define our own jsonify rather than using flask.jsonify because we wish
 # to jsonify arbitrary objects (e.g. index returns a list) rather than kwargs.
@@ -150,7 +151,22 @@ def update_annotation(id):
         return failure
 
     if request.json is not None:
-        updated = _filter_input(request.json, UPDATE_FILTER_FIELDS)
+        if "redacted" in request.json:
+            # annotation is redacted, so remove some data
+            
+            # prepare a [deleted] username
+            new_user = "acct:[deleted]@" + annotation.get("user").split("@")[1]
+            
+            # remove creation date (so that it will be set to now)
+            del annotation["created"]
+            
+            # prepare the list of updates
+            updated = dict(redacted=True, text=request.json["text"], user=new_user)
+
+        else:    
+            # this is a normal edit, so creation date, update date, and user are not accepted
+            updated = _filter_input(request.json, UPDATE_FILTER_FIELDS)
+
         updated['id'] = id # use id from URL, regardless of what arrives in JSON payload
 
         if 'permissions' in updated and updated['permissions'] != annotation.get('permissions', {}):
