@@ -12,7 +12,6 @@ store = Blueprint('store', __name__)
 
 CREATE_FILTER_FIELDS = ('updated', 'created', 'consumer')
 UPDATE_FILTER_FIELDS = ('updated', 'created', 'user', 'consumer')
-ABSOLUTE_FILTER_FIELDS = ('consumer')
 
 # We define our own jsonify rather than using flask.jsonify because we wish
 # to jsonify arbitrary objects (e.g. index returns a list) rather than kwargs.
