@@ -154,7 +154,7 @@ def update_annotation(id):
             # annotation is redacted, so remove some data
             
             # prepare a [deleted] username
-            new_user = "acct:[deleted]@" + annotation.get("user").split("@")[1]
+            new_user = "acct:Annotation deleted.@" + annotation.get("user").split("@")[1]
             
             # remove creation date (so that it will be set to now)
             del annotation["created"]
