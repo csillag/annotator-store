@@ -86,6 +86,9 @@ class Annotation(es.Model):
         # For all annotations about to be saved
         _add_updated(self)
 
+        print "Saving annotation with permissions: "
+        print self["permissions"]
+
         super(Annotation, self).save(*args, **kwargs)
 
 
