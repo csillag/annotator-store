@@ -35,7 +35,7 @@ def after_request(response):
     response.headers[ac + 'Expose-Headers']    = 'Content-Length, Content-Type, Location'
 
     if request.method == 'OPTIONS':
-        response.headers[ac + 'Allow-Headers']  = 'Content-Length, Content-Type, X-Annotator-Auth-Token, X-Requested-With'
+        response.headers[ac + 'Allow-Headers']  = 'Content-Length, Content-Type, X-Annotator-Auth-Token, X-Requested-With, X-XSRF-TOKEN'
         response.headers[ac + 'Allow-Methods']  = 'GET, POST, PUT, DELETE, OPTIONS'
         response.headers[ac + 'Max-Age']        = '86400'
 
