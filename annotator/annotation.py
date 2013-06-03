@@ -1,5 +1,4 @@
-from annotator import es, authz
-from annotator.document import Document
+from annotator import authz, document, es
 
 from flask import current_app, g
 
@@ -75,16 +74,7 @@ MAPPING = {
     },
     'references': {'type': 'string', 'index': 'not_analyzed'},
     'document': {
-        'properties': {
-            'title': {'type': 'string'},
-            'link': {
-                'type': 'nested',
-                'properties': {
-                    'type': {'type': 'string', 'index': 'not_analyzed'},
-                    'href': {'type': 'string', 'index': 'not_analyzed'},
-                }
-            }
-        }
+        'properties': document.MAPPING
     }
 }
 
@@ -103,10 +93,10 @@ class Annotation(es.Model):
         if self.has_key("document"):
             d = self["document"]
             uris = [link["href"] for link in d['link']]
-            docs = Document.get_all_by_uris(uris)
+            docs = document.Document.get_all_by_uris(uris)
 
             if len(docs) == 0:
-                doc = Document(d)
+                doc = document.Document(d)
                 doc.save()
             else:
                 doc = docs[0]
@@ -131,7 +121,7 @@ class Annotation(es.Model):
         # using information we may have on hand about the Document 
 
         if kwargs.has_key('uri'):
-            doc = Document.get_by_uri(kwargs['uri'])
+            doc = document.Document.get_by_uri(kwargs['uri'])
             if doc:
                 new_terms = []
                 terms = q['query']['filtered']['query']['filtered']['filter']['and']
