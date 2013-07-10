@@ -186,6 +186,10 @@ def delete_annotation(id):
 # SEARCH
 @store.route('/search')
 def search_annotations():
+    failure = _check_action(None, 'search')
+    if failure:
+        return failure
+
     kwargs = dict(request.args.items())
 
     if 'offset' in kwargs:
@@ -225,6 +229,10 @@ def _get_annotation_user(ann):
         return user
 
 def _check_action(annotation, action, message=''):
+    if g.user is None:
+        return _failed_authz_response("You must log in.")
+    elif action is "search":
+        return
     if not g.authorize(annotation, action, g.user):
         return _failed_authz_response(message)
 
