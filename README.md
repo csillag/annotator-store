@@ -16,8 +16,8 @@ The quickest way to get going requires the `pip` and `virtualenv` tools
 the repository root:
 
     virtualenv pyenv
-    pyenv/bin/pip install -e .
     source pyenv/bin/activate
+    pip install -e .
     cp annotator.cfg.example annotator.cfg
     python run.py
 
