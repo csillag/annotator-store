@@ -8,7 +8,7 @@ MAPPING = {
     'created': {'type': 'date'},
     'updated': {'type': 'date'},
     'quote': {'type': 'string'},
-    'tags': {'type': 'string', 'index_name': 'tag'},
+    'tags': {'type': 'string', 'index_name': 'not_analyzed'},
     'text': {'type': 'string'},
     'deleted': {'type': 'boolean'},
     'uri': {'type': 'string', 'index': 'not_analyzed'},
