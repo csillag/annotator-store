@@ -7,11 +7,23 @@ MAPPING = {
     'annotator_schema_version': {'type': 'string'},
     'created': {'type': 'date'},
     'updated': {'type': 'date'},
-    'quote': {'type': 'string'},
+    'quote': {
+        'type': 'string',
+        'search_analyzer': 'str_search_analyzer',
+        'index_analyzer': 'str_index_analyzer'
+    },
     'tags': {'type': 'string', 'index_name': 'not_analyzed'},
-    'text': {'type': 'string'},
+    'text': {
+        'type': 'string',
+        'search_analyzer': 'str_search_analyzer',
+        'index_analyzer': 'str_index_analyzer'
+    },
     'deleted': {'type': 'boolean'},
-    'uri': {'type': 'string', 'index': 'not_analyzed'},
+    'uri': {
+        'type': 'string',
+        'search_analyzer': 'str_search_analyzer',
+        'index_analyzer': 'str_index_analyzer'
+    },
     'user': {'type': 'string', 'index': 'not_analyzed'},
     'consumer': {'type': 'string', 'index': 'not_analyzed'},
 
@@ -78,11 +90,35 @@ MAPPING = {
     }
 }
 
+SETTINGS = {
+    "analysis": {
+        "analyzer": {
+            "str_search_analyzer": {
+                "tokenizer": "keyword",
+                "filter": ["lowercase"]
+            },
+
+            "str_index_analyzer": {
+                "tokenizer": "keyword",
+                "filter": ["lowercase", "substring"]
+            }
+        },
+        "filter": {
+            "substring": {
+                "type": "nGram",
+                "min_gram": 1,
+                "max_gram": 10
+            }
+        }
+    }
+}
+
 
 class Annotation(es.Model):
 
     __type__ = TYPE
     __mapping__ = MAPPING
+    __settings__ = SETTINGS
 
     def save(self, *args, **kwargs):
         _add_default_permissions(self)
