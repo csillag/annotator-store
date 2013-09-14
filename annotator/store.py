@@ -40,6 +40,7 @@ def after_request(response):
 
     if request.method == 'OPTIONS':
         rh[ac + 'Allow-Headers'] = ('Content-Length, Content-Type, '
+                                    'X-Client-ID, '
                                     'X-Annotator-Auth-Token, X-Requested-With')
         rh[ac + 'Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
         rh[ac + 'Max-Age'] = '86400'
