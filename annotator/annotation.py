@@ -20,9 +20,7 @@ MAPPING = {
     },
     'deleted': {'type': 'boolean'},
     'uri': {
-        'type': 'string',
-        'search_analyzer': 'str_search_analyzer',
-        'index_analyzer': 'str_index_analyzer'
+        'type': 'string'
     },
     'user': {'type': 'string', 'index': 'not_analyzed'},
     'consumer': {'type': 'string', 'index': 'not_analyzed'},
@@ -94,24 +92,25 @@ SETTINGS = {
     "analysis": {
         "analyzer": {
             "str_search_analyzer": {
-                "tokenizer": "keyword",
+                "tokenizer": "standard",
                 "filter": ["lowercase"]
             },
 
             "str_index_analyzer": {
-                "tokenizer": "keyword",
+                "tokenizer": "standard",
                 "filter": ["lowercase", "substring"]
             }
         },
         "filter": {
             "substring": {
-                "type": "nGram",
+                "type": "edgeNGram",
                 "min_gram": 1,
-                "max_gram": 10
+                "max_gram": 12
             }
         }
     }
 }
+
 
 
 class Annotation(es.Model):
