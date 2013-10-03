@@ -20,7 +20,8 @@ MAPPING = {
     },
     'deleted': {'type': 'boolean'},
     'uri': {
-        'type': 'string'
+        'type': 'string',
+        'index': 'not_analyzed'
     },
     'user': {'type': 'string', 'index': 'not_analyzed'},
     'consumer': {'type': 'string', 'index': 'not_analyzed'},
@@ -105,7 +106,7 @@ SETTINGS = {
             "substring": {
                 "type": "edgeNGram",
                 "min_gram": 1,
-                "max_gram": 12
+                "max_gram": 8
             }
         }
     }
