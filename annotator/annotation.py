@@ -9,13 +9,13 @@ MAPPING = {
     'updated': {'type': 'date'},
     'quote': {
         'type': 'string',
-        'search_analyzer': 'str_search_analyzer',
+        'search_analyzer': 'standard',
         'index_analyzer': 'str_index_analyzer'
     },
     'tags': {'type': 'string', 'index_name': 'not_analyzed'},
     'text': {
         'type': 'string',
-        'search_analyzer': 'str_search_analyzer',
+        'search_analyzer': 'standard',
         'index_analyzer': 'str_index_analyzer'
     },
     'deleted': {'type': 'boolean'},
@@ -92,11 +92,6 @@ MAPPING = {
 SETTINGS = {
     "analysis": {
         "analyzer": {
-            "str_search_analyzer": {
-                "tokenizer": "standard",
-                "filter": ["lowercase"]
-            },
-
             "str_index_analyzer": {
                 "tokenizer": "standard",
                 "filter": ["lowercase", "substring"]
